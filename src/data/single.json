@@ -1,0 +1,18 @@
+{
+  "racer": [{ "racer_id": "1", "name": "Gosling" }],
+  "raceStart": [{ "racer_id": "1", "race_type": 1 }],
+  "raceEnd": {
+    "wpm": 40,
+    "accuracy": 100,
+    "duration": 40
+  },
+  "single": {
+    "racer_id": "1",
+    "content": "(Newbie here, so I might be wrong) Pass a function when you need to update based on the previous state. For example counters, adding to an array etcas",
+    "length": 181,
+    "text_author": "Nicolas",
+    "contributor_name": "Moderator77",
+    "racer_name": "Gosing",
+    "avatar": "../assets/testCarModel.svg"
+  }
+}
