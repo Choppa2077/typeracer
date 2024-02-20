@@ -1,0 +1,12 @@
+
+input {
+    border: 2px solid #ccc; /* Set the default border color to blue */
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  input:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: #2980b9; /* Change the border color on focus */
+  }

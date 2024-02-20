@@ -14,4 +14,5 @@ export const mainColors = {
   fromWhere: 'rgb(51,51,51)',
   purpleText: 'rgb(106,75,127)',
   iconColor: 'rgb(95,208,253)',
+  redColor: 'rgb(255,0,0)',
 };

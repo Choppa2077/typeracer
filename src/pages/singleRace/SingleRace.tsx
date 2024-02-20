@@ -14,9 +14,11 @@ const SingleRace = () => {
   const navigation = useNavigate();
   const { progress } = useAppSelector((state) => state.race);
   const [timer, setTimer] = useState(3);
-  const [raceTimer, setRaceTimer] = useState(3);
+  const [raceTimer, setRaceTimer] = useState(100);
   const [userInput, setUserInput] = useState('');
-  const { data } = useGetRaceDataQuery();
+  // const { data } = useGetRaceDataQuery();
+  const racerId = '11111111-1111-1111-1111-111111111111';
+  const { data, error, isLoading } = useGetRaceDataQuery();
   const [typedWords, setTypedWords] = useState<string[]>([]);
 
   const handleInputChange = (inputValue: string) => {

@@ -8,6 +8,7 @@ interface FooterProps {
 }
 
 const Footer: FC<FooterProps> = ({ onChangeTheme }) => {
+  
   return (
     <div
       className=" flex h-44 w-full items-center justify-between  mt-44 absolute bottom-0"
@@ -24,7 +25,7 @@ const Footer: FC<FooterProps> = ({ onChangeTheme }) => {
             <p>|</p>
             <p>FAQ</p>
           </div>
-          <div className='mb-4'>
+          <div className="mb-4">
             <p>© 2024 Pet project of Arup and Mukan</p>
           </div>
           <div>

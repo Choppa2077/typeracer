@@ -10,6 +10,9 @@ interface singelRace {
   avatar: string;
   id: string;
 }
+interface PostData {
+  racer_id: string;
+}
 
 type singleRaceResponse = singelRace;
 
@@ -37,6 +40,18 @@ export const singleRaceApi = createApi({
             ]
           : [{ type: 'singleRace', id: 'LIST' }],
     }),
+    // singleRace: build.mutation<singleRaceResponse, PostData>({
+    //   query: (postData) => ({
+    //     url: 'single',
+    //     method: 'POST',
+    //     body: postData,
+    //   }),
+    //   onQueryUpdated: (result, { dispatch, queryFulfilled }) => {
+    //     // After the mutation is completed, you can dispatch additional actions
+    //     // For example, you can refetch data using another query
+    //     queryFulfilled(result, dispatch);
+    //   },
+    // }),
     getEndData: build.query<singleEndResponse, void>({
       query: () => 'raceEnd',
       providesTags: (result) =>

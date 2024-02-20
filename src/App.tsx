@@ -1,28 +1,19 @@
 import MainPage from './pages/main/MainPage';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import SingleRace from './pages/singleRace/SingleRace';
 import FriendsRace from './pages/friendsRace/FriendsRace';
-import Navbar from './components/layout/navigation/Navbar';
 import bgtyperacer from './assets/banner-dark.svg';
-import Footer from './components/layout/footer/Footer';
-import { useState } from 'react';
-import { mainColors } from './assets/mainColors';
+import SignUp from './pages/Login/SignUp';
+import Layout from './components/layout/Layout';
+import RequireAuth from './store/authentication/RequireAuth';
+import ProfilePage from './pages/profile/ProfilePage';
+import Login from './pages/Login/Login';
 function App() {
-  const [theme, setTheme] = useState('dark'); // Initial theme, you can set it to 'white' if you want
-
-  const changeTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'dark' ? 'white' : 'dark'));
-    document.documentElement.style.setProperty(
-      '--background-color',
-      theme === 'dark' ? mainColors.whiteBg : mainColors.darkBg,
-    );
-  };
   return (
     <div
-      className="relative"
+      className="relative "
       style={{ background: `url(${bgtyperacer}) no-repeat`, height: '1200px' }}
     >
-      <Navbar />
       {/* <div
         className=" absolute w-full h-full"
         style={{ backgroundImage: bgtyperacer }}
@@ -32,14 +23,23 @@ function App() {
           style={{ backgroundColor: mainColors.purpleButtons }}
         />
       </div> */}
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/friendsrace/:id" element={<FriendsRace />} />
-          <Route path="/practice/:id" element={<SingleRace />} />
-        </Routes>
-      </BrowserRouter>
-      <Footer onChangeTheme={changeTheme} />
+
+      <Routes>
+        <Route path="/" element={<Layout />}>
+
+          {/* public routes */}
+          <Route index element={<MainPage />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="login" element={<Login />} />
+          <Route path="friendsrace/:id" element={<FriendsRace />} />
+          <Route path="practice/:id" element={<SingleRace />} />
+          {/* protected routes */}
+          <Route element={<RequireAuth />}>
+            <Route path="profile/:id" element={<ProfilePage />} />
+          </Route>
+
+        </Route>
+      </Routes>
     </div>
   );
 }

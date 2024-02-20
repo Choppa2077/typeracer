@@ -1,16 +1,17 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { singleRaceApi } from '../services/singleRaceApi';
-import { progressSlice } from './progressSlice';
 
-const rootReducer = combineReducers({
-  [singleRaceApi.reducerPath]: singleRaceApi.reducer,
-  race: progressSlice.reducer,
-});
+import { apiSlice } from '../services/apiSlice';
+import { rootReducer } from './rootReducer';
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(singleRaceApi.middleware),
+    getDefaultMiddleware().concat(
+      singleRaceApi.middleware,
+      apiSlice.middleware,
+    ),
+  devTools: true,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

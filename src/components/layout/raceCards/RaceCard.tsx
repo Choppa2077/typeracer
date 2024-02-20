@@ -37,6 +37,7 @@ const RaceCard: FC<RaceCardProps> = ({
           buttonText={buttonText}
           onClick={onClick}
           h={62.4}
+          withIcon={false}
         />
       </div>
       <img
