@@ -6,7 +6,8 @@ interface IProgress {
   marginForDrive: number;
   userInput: string;
   text: string | undefined;
-  notCorrectTypeCount: number;
+  errorCount: number;
+  errorIndexes: { [key: number]: boolean }; // Map for errors
 }
 
 const initialState: IProgress = {
@@ -15,7 +16,8 @@ const initialState: IProgress = {
   marginForDrive: 0,
   userInput: '',
   text: undefined,
-  notCorrectTypeCount: 0,
+  errorCount: 0,
+  errorIndexes: {},
 };
 
 export const progressSlice = createSlice({
@@ -35,12 +37,24 @@ export const progressSlice = createSlice({
     setText: (state: IProgress, action: PayloadAction<string>) => {
       state.text = action.payload;
     },
-    setNotCorrectTypeCount: (state: IProgress, action: PayloadAction<number>) => {
-      state.notCorrectTypeCount = action.payload;
+    setErrorCount: (state, action) => {
+      state.errorCount = action.payload;
+    },
+    setErrorIndex: (state, action) => {
+      const { index, isError } = action.payload;
+      if (isError) {
+        state.errorIndexes[index] = true;
+      } else {
+        delete state.errorIndexes[index];
+      }
+    },
+    resetErrors: (state) => {
+      state.errorCount = 0;
+      state.errorIndexes = {};
     },
   },
 });
 
-export const { setUserInput, setProgress, setText, setNotCorrectTypeCount } =
-  progressSlice.actions;
+export const { setUserInput, setProgress, setText, setErrorCount, setErrorIndex, resetErrors } =
+  progressSlice.actions;                           
 export const progressReducer = progressSlice.reducer;

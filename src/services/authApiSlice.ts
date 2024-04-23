@@ -3,38 +3,40 @@ import { apiSlice } from './apiSlice';
 interface LoginCredentials {
   email: string;
   password: string;
+  fingerprint: string | undefined;
 }
 
 interface SignUpCredentials {
   username: string;
   email: string;
   password: string;
-  fingerPrint: string | undefined;
+  fingerprint: string | undefined;
 }
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     signUp: build.mutation<AuthResponse, SignUpCredentials>({
       query: (credentials) => ({
-        url: '/signup',
+        url: '/api/auth/sign-up',
         method: 'POST',
-        body: {...credentials},
+        body: { ...credentials },
       }),
     }),
     login: build.mutation<AuthResponse, LoginCredentials>({
       query: (credentials) => ({
-        url: '/login',
+        url: '/api/auth/sign-in',
         method: 'POST',
-        body: {...credentials},
+        body: { ...credentials },
       }),
     }),
     logout: build.mutation<void, void>({
       query: () => ({
-        url: '/logout',
-        method: 'POST',
+        url: '/api/auth/logout',
+        method: 'DELETE',
       }),
     }),
   }),
 });
 
-export const { useSignUpMutation, useLoginMutation, useLogoutMutation } = authApiSlice;
+export const { useSignUpMutation, useLoginMutation, useLogoutMutation } =
+  authApiSlice;

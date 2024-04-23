@@ -1,9 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../hooks';
+// import { useAppSelector } from '../hooks';
 import { Outlet } from 'react-router-dom';
 
 const RequireAuth = () => {
-  const token = useAppSelector((state) => state.auth.token);
+  // const token = useAppSelector((state) => state.auth.token);
+  const token = localStorage.getItem('token');
   const location = useLocation();
   const navigate = useNavigate();
 

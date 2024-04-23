@@ -1,12 +1,10 @@
-import { useVisitorData } from '@fingerprintjs/fingerprintjs-pro-react';
+// import { useVisitorData } from '@fingerprintjs/fingerprintjs-pro-react';
 
-export const fetchFingerPrint = () => {
-  const { data } = useVisitorData(
-    { extendedResult: true },
-    { immediate: true },
-  );
-  // console.log(data);
-  
+// export const fetchFingerPrint = () => {
+//   const { data } = useVisitorData(
+//     { extendedResult: true },
+//     { immediate: true },
+//   );
 
-  return data?.visitorId;
-};
+//   return data?.visitorId;
+// };

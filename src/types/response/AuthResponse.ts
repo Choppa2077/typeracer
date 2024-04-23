@@ -1,3 +1,3 @@
 interface AuthResponse {
-  accessToken: undefined | string;
+  access: string | undefined;
 }

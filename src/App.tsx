@@ -35,7 +35,7 @@ function App() {
           <Route path="practice/:id" element={<SingleRace />} />
           {/* protected routes */}
           <Route element={<RequireAuth />}>
-            <Route path="profile/:id" element={<ProfilePage />} />
+            <Route path="profile" element={<ProfilePage />} />
           </Route>
 
         </Route>

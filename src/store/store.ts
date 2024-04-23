@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { singleRaceApi } from '../services/singleRaceApi';
+// import { singleRaceApi } from '../services/singleRaceApi';
 
 import { apiSlice } from '../services/apiSlice';
 import { rootReducer } from './rootReducer';
@@ -8,7 +8,6 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-      singleRaceApi.middleware,
       apiSlice.middleware,
     ),
   devTools: true,

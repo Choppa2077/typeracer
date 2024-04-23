@@ -2,7 +2,8 @@ import { FC, useEffect, useState } from 'react';
 import styles from './progressbar.module.css';
 import carModel from '../../assets/testCarModel.svg';
 import { useAppSelector } from '../../store/hooks';
-import { useGetRaceDataQuery } from '../../services/singleRaceApi';
+import { useStartSingleRaceMutation } from '../../services/startSingleApiSlice';
+// import { useGetRaceDataQuery } from '../../services/singleRaceApi';
 
 interface ProgressBarParams {
   text: undefined | string;
@@ -11,9 +12,9 @@ const ProgressBar: FC<ProgressBarParams> = ({ text }) => {
   const [marginForDrive, setMarginForDrive] = useState(20);
   const progressBarWidth = 700;
   const { progress, previousProgress } = useAppSelector((state) => state.race);
-  const { data } = useGetRaceDataQuery();
+  // const { data } = useGetRaceDataQuery();
   // console.log(data?.text_author);
-  
+    const [startSingleRace, {data}] = useStartSingleRaceMutation()
 
   // let intervals: number[] = [];
   // useEffect(() => {

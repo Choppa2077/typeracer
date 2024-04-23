@@ -1,16 +1,20 @@
 // import React, { FC } from 'react';
 import React, { useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { ErrorResponse, useNavigate } from 'react-router-dom';
 import { useSignUpMutation } from '../../services/authApiSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setAuth, setToken } from '../../store/authentication/authSlice';
+import {
+  setAuth,
+  setToken,
+  setUsername,
+} from '../../store/authentication/authSlice';
 import { FieldValues, useForm } from 'react-hook-form';
 import { mainColors } from '../../assets/mainColors';
 import CardButton from '../../components/buttons/CardButton';
 import './signup.module.css';
 import { BallTriangle } from 'react-loader-spinner';
 import { useVisitorData } from '@fingerprintjs/fingerprintjs-pro-react';
-import { fetchFingerPrint } from './fingerPrint';
+// import { fetchFingerPrint } from './fingerPrint';
 
 const SignUp = () => {
   // if (isSuccess) {
@@ -64,7 +68,7 @@ const SignUp = () => {
   // const fingerPrint = 'ajhfjahsfkjaslkjf';
   const dispatch = useAppDispatch();
   // const { token } = useAppSelector((state) => state.auth);
-  const {data } = useVisitorData(
+  const { data } = useVisitorData(
     { extendedResult: true },
     { immediate: true },
   );
@@ -84,23 +88,43 @@ const SignUp = () => {
     }
   }, []);
 
-  const fingerPrint = fetchFingerPrint()
+  // const fingerprint = fetchFingerPrint()
+  const fingerprint = 'asdfghjkl';
   // console.log(fingerPrint);
-  
+  let errorMessagefromServer = '';
   const onSubmit = async (data: FieldValues) => {
     console.log('PRESSED');
     const formData = getValues();
     const { username, email, password } = formData;
-    
-    console.log({ username, email, password, fingerPrint});
 
-    const userToken = await signUp({ username, email, password, fingerPrint})
-      .unwrap()
-      .then((payload) => console.log('fulfilled', payload))
-      .catch((error) => console.error('rejected', error));
+    console.log({ username, email, password, fingerprint });
 
-    dispatch(setToken(userToken));
-    dispatch(setAuth(true));
+    try {
+      await signUp({ username, email, password, fingerprint })
+        .unwrap()
+        .then((payload) => {
+          console.log('fulfilled', payload);
+          localStorage.setItem('token', payload.access);
+          localStorage.setItem('username', username);
+          dispatch(setToken(payload.access));
+          dispatch(setAuth(true));
+          dispatch(setUsername(username));
+          reset();
+          // navigation('/login');
+          navigation('/')
+          console.log(payload);
+          
+        });
+
+      reset();
+    } catch (error: any) {
+      console.error('rejected', error);
+      if (error) {
+        errorMessagefromServer = error.data.message;
+        console.error('Error Message:', errorMessagefromServer);
+      }
+    }
+
     reset();
   };
   return isLoading ? (
@@ -138,7 +162,8 @@ const SignUp = () => {
             Create a Typeracer clone account
           </h1>
           <p className="mb-4" style={{ fontSize: '15px' }}>
-            Already signed up? Log in
+            Already signed up?{' '}
+            <button onClick={() => navigation('/login')}>Log in</button>
           </p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -185,6 +210,11 @@ const SignUp = () => {
             {errors.password && (
               <p style={{ color: mainColors.redColor }}>
                 {errors.password?.message}
+              </p>
+            )}
+            {errorMessagefromServer && (
+              <p style={{ color: mainColors.redColor }}>
+                {errorMessagefromServer}
               </p>
             )}
             <div className="flex justify-center mt-4">

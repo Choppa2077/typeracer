@@ -2,12 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import { mainColors } from '../../assets/mainColors';
 import CardButton from '../buttons/CardButton';
 import { BsCheck, BsClock, BsKeyboard } from 'react-icons/bs';
-import { useGetEndDataQuery } from '../../services/singleRaceApi';
+import { useStartSingleRaceMutation } from '../../services/startSingleApiSlice';
+// import { useGetEndDataQuery } from '../../services/singleRaceApi';
 
 const RaceInfo = () => {
-  const { data, error, isLoading } = useGetEndDataQuery();
+  // const { data, error, isLoading } = useGetEndDataQuery();
+  const [startSingleRace, {data, isLoading}] = useStartSingleRaceMutation()
   const navigation = useNavigate();
-  console.log(data?.wpm);
   if (isLoading) {
     console.log('load');
   }

@@ -9,13 +9,15 @@ import {
 } from '../store/authentication/authSlice';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5002',
+  baseUrl: 'http://localhost:1001',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.token;
+    // const token = (getState() as RootState).auth.token;
+    const token = localStorage.getItem('token');
+    console.log(token);
 
     if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
+      headers.set('Authorization', `${token}`);
     }
 
     return headers;
@@ -41,10 +43,14 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result?.error?.status === 401) {
+  if (result?.error?.status === 403) {
     console.log('sending refresh token');
     // send refresh token to get new access token
-    const refreshResult = await baseQuery('/refresh', api, extraOptions);
+    const refreshResult = await baseQuery(
+      '/api/auth/refresh',
+      api,
+      extraOptions,
+    );
     console.log(refreshResult);
     if (refreshResult?.data) {
       // store the new token
@@ -55,18 +61,14 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       api.dispatch(setLogOut());
     }
   }
-  const isAuthenticated = api.getState().auth.token !== undefined;
-  if (!isAuthenticated) {
-    // Handle unauthenticated state, e.g., redirect to login
-    console.log('User is not authenticated');
-    api.dispatch(setLogOut());
-  }
+  // const isAuthenticated = api.getState().auth.token !== undefined;
+  // if (!isAuthenticated) {
+  //   // Handle unauthenticated state, e.g., redirect to login
+  //   console.log('User is not authenticated');
+  //   api.dispatch(setLogOut());
+  // }
   return result;
 };
-
-
-
-
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
