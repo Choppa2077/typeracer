@@ -29,6 +29,11 @@ interface EndSingleRaceResponse{
   duration: number | null;
 }
 
+interface CreateLinkResponse {
+  link: string;
+  text: string;
+}
+
 // interface singleEndGetApiParams {
 //   wpm: number;
 //   accuracy: number;
@@ -60,7 +65,12 @@ export const startSingleApiSlice = apiSlice.injectEndpoints({
         body: { ...data },
       }),
     }),
-    
+    createLink: build.mutation<CreateLinkResponse, void>({
+      query: () => ({
+        url: '/track/link',
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -68,4 +78,5 @@ export const {
   useStartSingleRaceMutation,
   useEndSingleRaceMutation,
   useCurrentSingleRaceMutation,
+  useCreateLinkMutation,
 } = startSingleApiSlice;

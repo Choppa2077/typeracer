@@ -25,6 +25,9 @@ const SingleRace = () => {
   const racerId = '11111111-1111-1111-1111-111111111111';
   const [typedWords, setTypedWords] = useState<string[]>([]);
   const [startSingleRace, { data }] = useStartSingleRaceMutation();
+  const [wpmEndRace, setWpmEndRace] = useState(0);
+  const [accuracyEndRace, setAccuracyEndRace] = useState(0);
+  const [durationEndRace, setDurationEndRace] = useState(0);
 
   const handleInputChange = (inputValue: string) => {
     setUserInput(inputValue);
@@ -106,8 +109,6 @@ const SingleRace = () => {
     return () => clearInterval(interval);
   }, [timer]);
 
-  
-
   useEffect(() => {
     if (progress === data?.text.content.length) {
       setRaceTimer(0);
@@ -121,22 +122,25 @@ const SingleRace = () => {
       );
     }
   }, [progress, data?.text.content.length]);
-  // useEffect(()=>{
-  //   if (raceTimer === 0 || progress === data?.text?.content.length) {
-  //     endSingleRace({
-  //       errors: notCorrectType,
-  //       duration: stopwatchTime,
-  //       length: data?.text?.content.length,
-  //     })
-  //       .unwrap()
-  //       .then((payload) => {
-  //         console.log(payload);
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error fetching payload:', error);
-  //       });
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (raceTimer === 0 || progress === data?.text?.content.length) {
+      endSingleRace({
+        errors: notCorrectType,
+        duration: stopwatchTime,
+        length: data?.text?.content.length,
+      })
+        .unwrap()
+        .then((payload) => {
+          console.log(payload);
+          setWpmEndRace(payload.wpm);
+          setAccuracyEndRace(payload.accuracy);
+          setDurationEndRace(payload.duration);
+        })
+        .catch((error) => {
+          console.error('Error fetching payload:', error);
+        });
+    }
+  }, [raceTimer === 0 || progress === data?.text?.content.length]);
 
   // if(progress === data?.text?.length){
   //   useEndSingleRaceMutation({
@@ -196,7 +200,11 @@ const SingleRace = () => {
         </div>
       </div>
       {raceTimer === 0 || progress === data?.text.content.length ? (
-        <RaceInfo />
+        <RaceInfo
+          endWpm={wpmEndRace}
+          endAccuracy={accuracyEndRace}
+          endDuration={durationEndRace}
+        />
       ) : (
         <div> </div>
       )}

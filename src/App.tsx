@@ -31,7 +31,7 @@ function App() {
           <Route index element={<MainPage />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
-          <Route path="friendsrace/:id" element={<FriendsRace />} />
+          <Route path="friendsrace" element={<FriendsRace />} />
           <Route path="practice/:id" element={<SingleRace />} />
           {/* protected routes */}
           <Route element={<RequireAuth />}>

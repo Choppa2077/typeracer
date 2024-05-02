@@ -6,6 +6,13 @@ interface LoginCredentials {
   fingerprint: string | undefined;
 }
 
+interface LoginResponse {
+  access: string | undefined;
+  avatar: string | undefined;
+  username: string| undefined;
+}
+
+
 interface SignUpCredentials {
   username: string;
   email: string;
@@ -13,16 +20,22 @@ interface SignUpCredentials {
   fingerprint: string | undefined;
 }
 
+interface SignUpResponse {
+  access: string | undefined;
+  avatar: string | undefined;
+}
+
+
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    signUp: build.mutation<AuthResponse, SignUpCredentials>({
+    signUp: build.mutation<SignUpResponse, SignUpCredentials>({
       query: (credentials) => ({
         url: '/api/auth/sign-up',
         method: 'POST',
         body: { ...credentials },
       }),
     }),
-    login: build.mutation<AuthResponse, LoginCredentials>({
+    login: build.mutation<LoginResponse, LoginCredentials>({
       query: (credentials) => ({
         url: '/api/auth/sign-in',
         method: 'POST',

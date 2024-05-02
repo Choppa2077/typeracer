@@ -16,12 +16,12 @@ const MainPage = () => {
   const accessToken = useAppSelector((state) => state.auth.token);
 
   const startAndNavigate = async () => {
-    if (accessToken) {
-      const response = await startSingleRace({ accessToken });
-      if('data' in response){
-        const {content, length, text_author, contributor_name, racer_name, avatar, id} = response.data as StartSingleRaceResponse
-      }
-    }
+    // if (accessToken) {
+    //   const response = await startSingleRace({ accessToken });
+    //   if('data' in response){
+    //     const {content, length, text_author, contributor_name, racer_name, avatar, id} = response.data as StartSingleRaceResponse
+    //   }
+    // }
     navigation(`/practice/${accessToken}`);
   };
 
@@ -32,7 +32,7 @@ const MainPage = () => {
         <RaceCard
           title="Race your friends"
           body="Create your own racetrack and play with friends"
-          onClick={() => navigation(`/practice/${accessToken}`)}
+          onClick={() => navigation(`/friendsrace`)}
           buttonColor={mainColors.orangeButtons}
           buttonText="Create Racetrack"
           car={carFriends}

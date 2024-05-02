@@ -3,9 +3,16 @@ import { mainColors } from '../../assets/mainColors';
 import CardButton from '../buttons/CardButton';
 import { BsCheck, BsClock, BsKeyboard } from 'react-icons/bs';
 import { useStartSingleRaceMutation } from '../../services/startSingleApiSlice';
+import { FC } from 'react';
 // import { useGetEndDataQuery } from '../../services/singleRaceApi';
 
-const RaceInfo = () => {
+interface RaceInfoProps {
+  endWpm: number;
+  endAccuracy: number;
+  endDuration: number;
+}
+
+const RaceInfo: FC<RaceInfoProps> = ({endWpm, endAccuracy, endDuration}) => {
   // const { data, error, isLoading } = useGetEndDataQuery();
   const [startSingleRace, {data, isLoading}] = useStartSingleRaceMutation()
   const navigation = useNavigate();
@@ -53,7 +60,7 @@ const RaceInfo = () => {
               </div>
               <p className="ml-3">Your speed:</p>
             </div>
-            <p>{data?.wpm}</p>
+            <p>{endWpm}</p>
           </div>
           <div className="flex items-center justify-between mt-4 ">
             <div className="flex">
@@ -62,7 +69,7 @@ const RaceInfo = () => {
               </div>
               <p className="ml-3">Accuracy:</p>
             </div>
-            <p>{data?.accuracy}%</p>
+            <p>{endAccuracy}%</p>
           </div>
           <div className="flex items-center justify-between mt-4">
             <div className="flex">
@@ -71,7 +78,7 @@ const RaceInfo = () => {
               </div>
               <p className="ml-3">Time:</p>
             </div>
-            <p>{data?.duration}</p>
+            <p>{endDuration}</p>
           </div>
         </div>
       </div>
